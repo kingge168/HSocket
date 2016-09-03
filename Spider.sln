@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spider.Network", "Spider.Network\Spider.Network.csproj", "{6731FCE7-7A90-46A1-A018-C3A13FA5224E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spider.Common", "Spider.Common\Spider.Common.csproj", "{BCAA7FC5-8E17-43D7-83FE-DD76D09F2A31}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncSocketHost", "AsyncSocketHost\AsyncSocketHost.csproj", "{C0CDF36B-F1AC-4E5E-B604-B5608A8680ED}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6731FCE7-7A90-46A1-A018-C3A13FA5224E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6731FCE7-7A90-46A1-A018-C3A13FA5224E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6731FCE7-7A90-46A1-A018-C3A13FA5224E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6731FCE7-7A90-46A1-A018-C3A13FA5224E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCAA7FC5-8E17-43D7-83FE-DD76D09F2A31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCAA7FC5-8E17-43D7-83FE-DD76D09F2A31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCAA7FC5-8E17-43D7-83FE-DD76D09F2A31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCAA7FC5-8E17-43D7-83FE-DD76D09F2A31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0CDF36B-F1AC-4E5E-B604-B5608A8680ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0CDF36B-F1AC-4E5E-B604-B5608A8680ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0CDF36B-F1AC-4E5E-B604-B5608A8680ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0CDF36B-F1AC-4E5E-B604-B5608A8680ED}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
