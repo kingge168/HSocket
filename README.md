@@ -1,6 +1,6 @@
 # HSocket
 
-##A high-performance socket framework for c#.
+##A high-performance async socket framework for c#.
 
 ## how to test it?
 	run AsyncSocketHost.
