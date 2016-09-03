@@ -1,8 +1,15 @@
-﻿# Plugin
+##这是一个L/V(Length/Value)模型的异步Socket框架.L是指发送byte数组的长度,L固定为10个byte,V是指要发送的byte数组.可以用于处理超长的消息,处理完成的响应也按照L/V模型发送,客户端接收可以参考服务端解析过程.
 
-    A high-performance socket framework for C#.
-    
-## how to test?
-
-	run AsyncSocketHost.
-	run test.cmd.
+##eg:
+    1.第一次收到的byte[]:0 0 0 0 0 0 1 1 1 2 28 30 18 26 88 99 77
+    那么先取0 0 0 0 0 0 1 1 1 2,得到长度为1112,对后面的byte(从index10以后)进行存储
+    2.第二次收到的byte[]:5 10 0 66 0 0 1 1 1 2 28 30 18 26 88 99 44
+    那么继续存储收到的byte[],在之前的存储上追加
+    ...
+    ...
+    n.直到第n次收到byte[],在之前的存储上追加,当存储的byte[]长度等于1112时停止接收,开始解析,解析完成按照L/V模型组织发送,发送完毕继续步骤1.(中间遇到过程错误,将关闭会话)
+#特别提醒:
+	1.仅支持UTF8编码解析,原因是UTF8支持任何语言.采用Node.js做测试时,只用了英文字符做发送,原因是UTF8编码英文字符的长度和字符串长度一致(1:1).
+	2.Command必须实现CommandBase类,并且有一个无参构造函数(当然你可以修改代码,移除此限制,多数情况下这也完全够用),实现的Command类必须名称以Command结尾(大小写敏感).eg:TCommand,客户端发送命令参考Node.js实现,Command为T,则正确匹配TCommand处理返回结果.
+	3.配置文件参考server.cfg,生成时需拷贝到生成目录(vs可以通过属性设置实现).
+	4.如果发现任何问题和不足之处或者BUG请email给我:kingge63@163.com
