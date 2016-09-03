@@ -199,11 +199,7 @@ namespace Spider.Network
             byte[] bytes = CommandFactory.Process(SmartObject.Parse(Encoding.UTF8.GetString(_receiver.Buffer)));
             if (bytes != null)
             {
-                int messageLength = bytes.Length;
-                byte[] bytes2 = new byte[messageLength + 10];
-                Buffer.BlockCopy(Encoding.UTF8.GetBytes(messageLength.ToString().PadLeft(10, '0')), 0, bytes2, 0, 10);
-                Buffer.BlockCopy(bytes, 0, bytes2, 10, messageLength);
-                _sender = new Sender(bytes2, _bufferSize);
+                _sender = new Sender(bytes, _bufferSize);
                 #if DEBUG
                 Logger.InfoFormat("sessionID:{0} process data success.", _sessionID);
                 #endif
