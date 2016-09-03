@@ -7,7 +7,7 @@ namespace AsyncSocketHost
     {
         static void Main(string[] args)
         {
-            AsyncTcpHost host = new AsyncTcpHost();
+            AsyncTcpHost host = new AsyncTcpHost("server.cfg");
             host.Start();
             Console.WriteLine("Press any key to terminate the server process....");
             Console.ReadKey();
