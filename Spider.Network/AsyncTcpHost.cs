@@ -22,7 +22,7 @@ namespace Spider.Network
 
         private IList<AsyncTcpListener> listeners = new LineList<AsyncTcpListener>();
 
-        public AsyncTcpHost() : this(ConfigurationReader.Read<ServerConfig>(Encoding.UTF8, "server.cfg"))
+        public AsyncTcpHost(string configFileName): this(ConfigurationReader.Read<ServerConfig>(Encoding.UTF8,configFileName))
         {
         }
 
