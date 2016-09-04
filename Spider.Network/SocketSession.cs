@@ -324,7 +324,6 @@ namespace Spider.Network
                         args.Completed -= args_Completed;
                         Pool<SocketAsyncEventArgs> pool = args.UserToken as Pool<SocketAsyncEventArgs>;
                         pool.Release(args);
-                        args.UserToken = null;
                         _isClosed = true;
                     }
                 }
