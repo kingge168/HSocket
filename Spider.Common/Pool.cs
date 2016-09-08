@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 
@@ -6,63 +6,64 @@ namespace Spider.Common
 {
     public sealed class Pool<T> : IDisposable where T : IDisposable
     {
-        private bool disposed = false;
-        private Semaphore gate;
-        private Stack<T> pool;
-        private int minSize;
-        private int total;
-        private int maxSize;
-        private Func<Pool<T>, T> creator;
+        private bool _disposed = false;
+        private Semaphore _gate;
+        private Stack<T> _pool;
+        private int _minSize;
+        private int _total;
+        private int _maxSize;
+        private Func<Pool<T>, T> _creator;
         public event Predicate<T> Predicate;
-        public Pool(int minPoolSize, int maxPoolSize,Func<Pool<T>,T> activator)
+
+        public Pool(int minPoolSize, int maxPoolSize, Func<Pool<T>, T> activator)
         {
             if (maxPoolSize <= 0)
             {
                 throw new ArgumentException("maxPoolSize");
             }
-            if (minPoolSize<0)
+            if (minPoolSize < 0)
             {
                 throw new ArgumentOutOfRangeException("minPoolSize");
             }
-            if (minPoolSize>maxPoolSize)
+            if (minPoolSize > maxPoolSize)
             {
                 throw new ArgumentException("maxPoolSize<minPoolSize");
             }
-            minSize = minPoolSize;
-            maxSize = maxPoolSize;
-            if (activator==null)
+            _minSize = minPoolSize;
+            _maxSize = maxPoolSize;
+            if (activator == null)
             {
                 throw new ArgumentNullException("activator");
             }
-            creator = activator;
-            gate = new Semaphore(minPoolSize, maxPoolSize);
-            pool = new Stack<T>();
+            _creator = activator;
+            _gate = new Semaphore(maxPoolSize, maxPoolSize);
+            _pool = new Stack<T>();
             for (int i = 0; i < minPoolSize; i++)
             {
-                pool.Push(activator(this));
-                total += 1;
+                _pool.Push(activator(this));
             }
-            
+            _total += minPoolSize;
         }
-        
-        public void IncreaseCapacity(){
-            if (total<maxSize&&pool.Count==0)
+
+        public void IncreaseCapacity()
+        {
+            if (_total < _maxSize && _pool.Count == 0)
             {
                 int len = CaclIncreaseLength();
                 for (int i = 0; i < len; i++)
                 {
-                    pool.Push(creator(this));
-                    gate.Release();
-                } 
+                    _pool.Push(_creator(this));
+                }
+                _total += len;
             }
         }
 
         private int CaclIncreaseLength()
         {
-            int remain = maxSize - total;
-            if (maxSize-total>minSize*2)
+            int remain = _maxSize - _total;
+            if (_maxSize - _total > _minSize * 2)
             {
-                return minSize;
+                return _minSize;
             }
             else
             {
@@ -72,52 +73,52 @@ namespace Spider.Common
 
         public T Acquire()
         {
-            if (!gate.WaitOne())
+            if (!_gate.WaitOne())
                 throw new InvalidOperationException();
-            lock (pool)
+            lock (_pool)
             {
                 IncreaseCapacity();
-                return pool.Pop();
+                return _pool.Pop();
             }
         }
 
         public void Release(T target)
         {
-            lock (pool)
+            lock (_pool)
             {
-                if (Predicate!=null)
+                if (Predicate != null)
                 {
                     if (Predicate(target))
                     {
-                        pool.Push(target);
-                        gate.Release();
+                        _pool.Push(target);
+                        _gate.Release();
                     }
                 }
                 else
                 {
                     if (target != null)
                     {
-                        pool.Push(target);
-                        gate.Release();
-                    }      
+                        _pool.Push(target);
+                        _gate.Release();
+                    }
                 }
             }
         }
 
         private void Dispose(bool disposing)
         {
-            if (disposed)
+            if (_disposed)
                 return;
             if (disposing)
             {
-                gate.Dispose();
+                _gate.Dispose();
             }
-            for (int i = 0; i < pool.Count; i++)
+            for (int i = 0; i < _pool.Count; i++)
             {
-                var t = pool.Pop();
+                var t = _pool.Pop();
                 t.Dispose();
             }
-            disposed = true;
+            _disposed = true;
         }
 
         public void Dispose()
